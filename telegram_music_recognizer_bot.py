@@ -1,4 +1,6 @@
-#!/usr/bin/env python3 """ Telegram bot (single-file) that recognizes the song inside an audio/video/voice file using shazamio (Shazam reverse-engineered). Async, based on python-telegram-bot v20+.
+#!/usr/bin/env python3
+
+""" Telegram bot (single-file) that recognizes the song inside an audio/video/voice file using shazamio (Shazam reverse-engineered). Async, based on python-telegram-bot v20+.
 
 Features:
 
@@ -102,3 +104,4 @@ app.run_polling()
 
 if name == 'main': main()
 
+                                         
