@@ -1,25 +1,8 @@
 #!/usr/bin/env python3
 
-""" Telegram bot (single-file) that recognizes the song inside an audio/video/voice file using shazamio (Shazam reverse-engineered). Async, based on python-telegram-bot v20+.
-
-Features:
-
-Accepts voice, audio, video, or any document with audio
-
-Converts input to WAV with ffmpeg
-
-Uses shazamio to identify song title + artist
-
-Graceful fallback message if no match
-
-
-Requirements: ffmpeg, Python 3.9+, pip packages: shazamio, python-telegram-bot, aiohttp
-
-Save this file and run: python telegram_music_recognizer_bot.py """
-
 import os import asyncio import tempfile import subprocess from pathlib import Path from shazamio import Shazam from telegram import Update from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # or paste your token string here
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # ضع توكن البوت هنا أو كمتغير بيئة
 
 async def convert_to_wav(input_path: Path, output_path: Path) -> bool: cmd = [ "ffmpeg", "-y", "-i", str(input_path), "-ar", "44100", "-ac", "2", "-vn", str(output_path) ] try: proc = await asyncio.create_subprocess_exec(*cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) await proc.communicate() return output_path.exists() except Exception as e: print("ffmpeg conversion failed:", e) return False
 
@@ -93,7 +76,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
     else:
         await msg.reply_text("ماكدر اتعرف على الاغنية. جرب صوت أو مقطع أطول أو استعمل خدمة ثانية (ACRCloud / Audd).")
 
-def main(): if not BOT_TOKEN: print("ERROR: BOT_TOKEN env var not set. Export BOT_TOKEN=<telegram-bot-token> or edit the script.") return
+def main(): if not BOT_TOKEN: print("ERROR: BOT_TOKEN env var not set. ضع التوكن الخاص بك.") return
 
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 handler = MessageHandler(filters.ALL & (~filters.COMMAND), handle_msg)
@@ -103,5 +86,6 @@ print("Starting bot...")
 app.run_polling()
 
 if name == 'main': main()
+
 
                                          
